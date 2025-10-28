@@ -1,7 +1,7 @@
-# DBMLFF Tutorial: Building Force Field for EMC Molecule
+# DBMLFF Tutorial: Building Force Field for EC Molecule
 
 ## Overview
-This tutorial provides a comprehensive guide to constructing the Density-Based Machine Learning Force Field (DBMLFF) for EMC molecules. The DBMLFF framework consists of three key components: **MLFF**, **DB**, and **POL**, which collectively describe molecular interactions with high accuracy and computational efficiency.
+This tutorial provides a comprehensive guide to constructing the Density-Based Machine Learning Force Field (DBMLFF) for EC molecules. The DBMLFF framework consists of three key components: **MLFF**, **DB**, and **POL**, which collectively describe molecular interactions with high accuracy and computational efficiency.
 
 ## Prerequisites
 - Access to PWmat for DFT calculations
