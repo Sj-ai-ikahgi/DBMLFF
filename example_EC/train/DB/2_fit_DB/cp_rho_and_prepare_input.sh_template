@@ -1,0 +1,32 @@
+#!/bin/bash
+
+
+  confNum=$1
+
+  echo " @@@ there are ${confNum} configuration take part in fitting rho"
+
+  # copy data file
+  rm -rf  ./data  && mkdir ./data
+  ddft_head="../1_SCF/SCF"
+  for i in `seq 1 1 ${confNum}`
+  do
+    echo "copy ${i}th rho and config"
+    cp -p ${ddft_head}/${i}/atom.config  ./data/xatom${i}.config
+    cp -p ${ddft_head}/${i}/OUT.RHO      ./data/OUT.RHO${i}
+  done
+
+
+  # setup inpute file
+  echo "${confNum}            ! number of systems  " > rho_fitV33.input_1
+  echo "0, 1, 0.2             ! iflag_in,iflag_mask,dGauss" >> rho_fitV33.input_1
+  echo "40,4.5,0.2,@z_valence,1.0   ! num_G,dmax,dmin,Z,factmin"  >> rho_fitV33.input_1
+  cat mol_atom_bond_info.dat >> rho_fitV33.input_1
+
+  echo "${confNum}            ! number of systems  " > rho_fitV33.input_2
+  echo "1, 0, 0.2             ! iflag_in,iflag_mask,dGauss" >> rho_fitV33.input_2
+  echo "40,1.5,0.2,@z_valence,1.0   ! num_G,dmax,dmin,Z,factmin"  >> rho_fitV33.input_2
+  cat mol_atom_bond_info.dat >> rho_fitV33.input_2
+
+
+
+

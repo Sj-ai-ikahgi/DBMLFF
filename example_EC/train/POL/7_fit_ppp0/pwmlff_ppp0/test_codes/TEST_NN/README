@@ -1,0 +1,82 @@
+   This is some code to analyze the NN behavior. 
+   The purpose actually is mostly to change the python code for fortran code, 
+   for people who are not familiar with python
+
+   We will take the example as specificied in parameter.py.example:
+
+----------------------------------
+   codedir='/ssd/linwang/ALL_ML_CODE/ML_FRAME_WORK_vdw/workdir'
+   trainSetDir='./train_data'
+   fortranFitSourceDir='/ssd/linwang/ALL_ML_CODE/ML_FRAME_WORK_vdw/fit'
+   fitModelDir='./fitmodel'
+   genFeatDir='/ssd/linwang/ALL_ML_CODE/ML_FRAME_WORK_vdw/gen_feature'
+   mdImageFileDir='./MD'           
+
+  dir_work = os.path.join(fitModelDir,'NN_output/')
+  d_nnEi  = os.path.join(dir_work,'NNEi/')
+  d_nnFi  = os.path.join(dir_work,'NNFi/')
+  f_Einn_model   = d_nnEi+'allEi_final.ckpt'
+  f_Finn_model   = d_nnFi+'Fi_final.ckpt'
+  f_data_scaler = d_nnFi+'data_scaler.npy'
+  f_Wij_np  = d_nnFi+'Wij.npy'
+-------------------------------------------------
+ This parameter.py and main.py are setting in the "current" directory ">". 
+ Under this current directory, there are an few sub-dir: fitmodel, MD, train_data
+ fitmodel will contain the NN model, and MD will have the MD result, train_data will store the MOVEMENT for training. 
+-------------------
+ More specifically, we have:
+ /fitmodel/NN_output/NNFi, which contains the already trained NN model files: data_scaler.npy, Wij.npy
+ data_scaler.npy is the a(i) and b(i) for converting the input feat(i):  feat(i)*a(i)+b(i), note: feat(i) is without PCA
+ Wij.npy contains the W(i,j,layer) and B(j) (shift) for the NN model. 
+ (step 1)
+ use: /fitmodel/NN_output/NNFi>python3 read_Wij.py > Wij.txt       
+      to get Wij.txt
+ use: /fitmodel/NN_output/NNFi>python3 read_scaler.py > scaler.txt       
+      to get scaler.txt
+     (how ever, for scaler.txt, need to modify it a little bit, make it looks like:
+      288
+      0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00
+      0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00
+      .....
+      0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00
+      288
+      0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00
+      0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00
+      .....
+      0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00
+      )
+
+ copy Wij.txt and scaler.txt to /fitmodel
+ -----------------------------------
+ (step 2) 
+  Do a NN_MD simulation using NN model: isRunMd_nn=True (in parameters.py)
+  Need to prepare atom.config in /MD
+  You might need to have other files like vdw_fitB.ntype in /fitmodel
+  run: >python3 main.py
+  It will generate the file: /MD/md
+ (step 3) 
+  copy /MD/md to /train_data/md
+  go to /train_data/md, move MOVEMENT to MOVEMENT.orig, use convert_MOVEMENT.r  to 
+  convert the MOVEMENT.orig to MOVEMENT (the normal PWmat style). 
+  (I was told there is a parameters.py option to output this style directly, but I didn't find it). 
+------------------------------------------
+ (step4) 
+  set isCalcFeat=True
+      isFitLinModel=True
+  in parameters.py, run: >python3 main.py
+  It will generate the feature and its derivative file dfeat.fbin.FtypeX  in train_data/md. 
+  It will also (is FitLinModel=True) generate many other necessary files in /fitmodel 
+ -----------------------------------------
+ (step5)
+  Now, in /fitmodel, you can run: TEST_NN.r. 
+  It will use the feature generated above, run the NN model inside the TEST_NN. 
+  The results will be output in energyL.pred.1. It should be exactly the same as the one generated from NN_MD
+
+
+ 
+
+
+      
+
+     >ptython3
+

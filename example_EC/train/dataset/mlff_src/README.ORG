@@ -1,0 +1,320 @@
+    To calculate the molecule, everything is the same, except, in the subdirectory where
+    there is MOVEMENT file, there is also a MOVEMENT.type file, which define the atom type for
+    each atom in the molecule. This probably only works for one molecule, with the same atomic 
+    sequence.  This only affect gen_2b_feature.f90, gen_3b_feature.f90. Since later on, the atomic type
+    has been written in the dfeat file etc. So all the other code does not need to be changed. 
+    However, the parameter.py needs to be changed to have all the type 1,2,3,4,5 etc.  
+
+   The procedure for developing and using organic ML
+
+ (0) All the codes in the subdirectory of this folder might have been changed, so please do not 
+     exchange them with the same programs in other directories. 
+
+ (1) (Mstation3) Do single moleculer linear force field:
+      example:  /ssd/linwang/ALL_SYSTEM_RUN/EC_MD/fread_dfeat (Mstation3)
+
+     (a) Do a DFT MD (e.g, 1000 steps) of a molecule, get MD
+     (b) Following the same procedure as before. But use the gen_2b_feature.f90, gen_3b_feature.f90 
+         in this directory (following the same parameter.py and main.py). run: >python3 main.py. 
+         Only use the 
+         python code to generate the features. After that, we will use the fortran code. Note, 
+         there need to be a MOVEMENT.type file in the subdirectory MOVEMENT is hosted. 
+         In the parameter.py, the atom types (Z's) need to be changed to 1,2,3,4,5 etc. 
+
+  MOVEMENT.type 
+--------------------------------------------
+      10
+     8  1   0.4336678290E+03   -0.2025040024E+02    0.6102946891E+01
+     8  1   0.4335575228E+03   -0.2054813981E+02    0.6097327279E+01
+     8  2   0.4383149493E+03   -0.1973374054E+02    0.6274193287E+01
+     6  3   0.2432042949E+03    0.3805203943E+01    0.3987055438E+01
+     6  3   0.2430202543E+03    0.3704083205E+01    0.3996447801E+01
+     6  4   0.2593525622E+03    0.4514913840E+01    0.3776726305E+01
+     1  5   0.3255024273E+02   -0.1517017091E+01    0.9446241624E+00
+     1  5   0.3278979593E+02   -0.1553636265E+01    0.9348626042E+00
+     1  5   0.3275108179E+02   -0.1569279140E+01    0.9455551032E+00
+     1  5   0.3314233442E+02   -0.1643890777E+01    0.9402422660E+00
+----------------------------------------------------
+This has the same line as in MOVEMENT (or xatom.config). 
+The first column is iatom, the second colume is iatom_new, the new atom type. 
+Note, the order of the atoms must be exactly the same as in MOVEMENT
+-------------------------------------------------------
+  One example is in: /ssd/linwang/ALL_SYSTEM_RUN/EC_MD/MD_RUN1  (mstation3)
+
+     (c) After generation of the feature (and linear fitting for PCA), use linear fitting to get 
+         a model for the atom itself. However, in the new linear fitting code, we have introduced 
+         a bond potential (like the vdw, actually to replace the vdw). A file: bond.molecule, needs 
+         to be placed in the fread_dfeat directory. The bond.molecule might look like this:
+
+ bond.molecule
+ ---------------------------------------
+     10                      ! num_bond
+     3   6   1.22    20.0    ! iat1,iat2, length(A), alpha(eV/A^2)
+     2   6   1.35    20.0
+     1   6   1.35    20.0
+     1   4   1.44    20.0
+     2   5   1.44    20.0
+     4   5   1.52    20.0
+     4   7   1.10    20.0
+     4   8   1.10    20.0
+     5  10   1.10    20.0
+     5   9   1.10    20.0
+ ---------------------------------------
+  Note, the atomic order in the molecule xatom.config is important (it is important first to 
+  place the same element atoms together consequentively. 
+  On each line of bond, it specify the two atoms in the xatom.config (they are not the atom types), 
+  the bond length, and strength. For strength, a rough number like 20 will be fine. This is to confine 
+  the system, so it will not deviate away from the original molecular bond configuration. There will be
+  no chemical reaction. The calc_lin_forceMM.f, fit_lin_forceMM.f will read this bond.molecule file. 
+  In the new MD_code.ORG, the calc_lin_forceM.f90 will also read the bond.molecule file. 
+
+ -------------------------------------------
+ use rho_fitV33.f90 to train the charge density fitting, with funcr_atom.fit.bin output
+ use charge_overlapV3.f90 to calculate the interaction energy of two molecules
+ use run2.sh to calculat the many energies with a displacement of one molecule.
+ Conclusion: continue to use 0.04 for E_kin2
+-------------------------------------------------
+ One example is in /ssd/linwang/ALL_SYSTEM_RUN/EC_MD/fread_dfeat (Mstation3)
+
+   (d) It is possible, even the bond constraint cannot confine the system, and the molecule can breakup 
+       during MD. In that case, a more powerful constraint is to use pair. In that case, in fit_linearMM.input, 
+       firs line, turn-on iflag_pair=1. During the fitting, the code will generate 
+       a dist_pair.out file, specify, for each atom pair, what is the range of minimum distance and maximum
+       distance in the training set MOVEMENT. Then, the code will turn on a confinement potential 
+       according to the dist_pair.out. Note, one has to copy dist_pair.out to dist_pair.in, and add
+       a Epair0 at the first line (e.g., 5 eV). 
+
+
+(2) (Mstation) Fitting the charge density. 
+     code: rho_fitV33.f90
+     directory: ML_FRAME_WORK_ORG/ML_ORG/RHO_FITTING 
+     example:  /home/weile/LinWang/EC_decomp/MD_TEST  (Mstation)
+
+    First do a few SCF calculation, from a few xatom.configuration (e.g, taken from MOVEMENT FILE). 
+    Just normal JOB=SCF calculation, no energy decomposition. Normal OUT.RHO output. 
+    copy xatom.config, OUT.RHO into: xatom.config1, OUT.RHO1, xatom.config2, OUT.RHO2 etc. 
+    prepare rho_fitV33.input. It is something like this:
+-------------------------------------------------------------
+    3                      ! number of systems
+   xatom1.config, OUT.RHO1   ! the xatom.config, OUT.RHO of different config
+   xatom2.config, OUT.RHO2
+   xatom3.config, OUT.RHO3
+   40,4.5,0.2,34.0,1.0    ! num_G,dmax,dmin,Z,factmin
+        20, 10                ! ncent, ncent_type: number of charge center and center type
+   1 6.0    1      1     1.00000    ! ic_type, Z, n_atom, iat_ind, w_iat
+   1 6.0    1      2     1.00000
+   2 6.0    1      3     1.00000
+   3 4.0    1      4     1.00000
+   3 4.0    1      5     1.00000
+   4 4.0    1      6     1.00000
+   5 1.0    1      7     1.00000
+   5 1.0    1      8     1.00000
+   5 1.0    1      9     1.00000
+   5 1.0    1     10     1.00000
+   6 0.0    2      4      1     0.50000     0.50000  ! ic_type, Z, n_atom=2, iat_ind1,iat_ind2,w1,w2
+   6 0.0    2      5      2     0.50000     0.50000
+   7 0.0    2      5      4     0.50000     0.50000
+   8 0.0    2      6      1     0.50000     0.50000
+   8 0.0    2      6      2     0.50000     0.50000
+   9  0.0   2      6      3     0.50000     0.50000
+   10 0.0   2      7      4     0.50000     0.50000
+   10 0.0   2      8      4     0.50000     0.50000
+   10 0.0   2      9      5     0.50000     0.50000
+   10 0.0   2     10      5     0.50000     0.50000
+-------------------------------------------------------------
+ The n_atom means how many atoms (usually just 1 or 2(bond)) determin this center
+ w (or w1,w2) is the weight from the n_atom to determine the center atom. 
+ Z is the nuclear charge of this center. 
+ num_G: how many  charge shells used to describe the real space charge density
+       These charge shells are defined as cos funcitons on the grid, but the first grid might be special
+ dmax: the maximum radius (A) of the charge ring
+ dmin: a minimum radius used to determine the grid size. 
+       These are the grid size used to determine the cos funciton for the basis set. 
+       It has an small exponential feature for grid sizes. 
+ Z: the total number of electron of the molecule. 
+ factmin: a factor used to generate the grid (all the grid shift by factmin*dmin) 
+ Please check the funcr_basis for the first ten basis functions. 
+------------------------------------------------------------
+  run: ML_ORG/vion_coulomb_fit/rho_fitV33.f90 to fit the molecule charge density. 
+       The result is in funcr_atom.fit.smooth (for plotting),  and
+       funcr_atom.fit.bin for later usage. 
+       Please plot them. 
+  
+      OUT.FIT_rho output the fitted molecular charge density for the last xatom.config in the 
+      fitting systems. One can plot it to check the accuracy. 
+------------------------------------------------------------
+One example is provided in /home/weile/LinWang/EC_decomp/MD_TEST  (Mstation)
+ 
+
+(3) (Mstation) TEST the charge density interaction
+    code: charge_overlapV3.f90
+    directory: ML_FRAME_WORK_ORG/ML_ORG/Mol_interact_TEST
+    example: /home/weile/LinWang/EC_decomp/DECOMP_line (Mstation) 
+
+    One can run ML_ORG/charge_overlap_test/charge_overlapV3.f90 to test the interaction energy 
+    of two molecules, and compare that to DFT calculations. 
+    Need to prepare: charge_overlapV3.input. It looks like this:
+-------------------------------------------------------------
+    atomM1.config, atomM2.config    ! the two atomic configs for the two molecules (the same molecule)
+    120                             ! Ecut2(Ryd)
+    0.04                            ! fact for van Wiasaker kinetic energy term, 0.04 is good
+    4.5                             ! Rbox (A). (for each charge center. Should be same as dmax above) 
+    72 72 96                        ! n1,n2,n3: usually from DFT calculation
+         20, 10                     ! ncent, nc_type: below is the same as above in rho_fitV33.input
+   1  6.0 1      1     1.00000
+   1  6.0 1      2     1.00000
+   2  6.0 1      3     1.00000
+   3  4.0 1      4     1.00000
+   3  4.0 1      5     1.00000
+   4  4.0 1      6     1.00000
+   5  1.0 1      7     1.00000
+   5  1.0 1      8     1.00000
+   5  1.0 1      9     1.00000
+   5  1.0 1     10     1.00000
+   6  0 2      4      1     0.50000     0.50000
+   6  0 2      5      2     0.50000     0.50000
+   7  0 2      5      4     0.50000     0.50000
+   8  0 2      6      1     0.50000     0.50000
+   8  0 2      6      2     0.50000     0.50000
+   9  0 2      6      3     0.50000     0.50000
+   10 0 2      7      4     0.50000     0.50000
+   10 0 2      8      4     0.50000     0.50000
+   10 0 2      9      5     0.50000     0.50000
+   10 0 2     10      5     0.50000     0.50000
+-------------------------------------------------------------
+   In running  charge_overlapV3.f90, we need funcr_atom.fit.bin from charge fitting. 
+   The testing example is in: /home/weile/LinWang/EC_decomp/DECOMP_line. 
+   There are run.sh, run2.sh for moving two molecular relative to each other, and 
+   calculate the DFT energy and density_FF energy, and compare them. The shift.f is 
+   used to shift the two molecules. 
+
+(4) (Mstation)  MD simulation. 
+     code:  main_MD.f90
+     directory: ML_RAME_WORK_ORG/ML_ORG/MD_code.ORG
+     example: /home/weile/PWMAT_ML/ML_ORG_TESTRUN/TEST_MD/EC_MD
+
+    Note: the funcr_atom.fit.bin is in the EC_MD directory, 
+    but linear_fitB.ntype is in EC_MD/fread_dfeat directory. 
+    Running the MD is main_MD.x in EC_MD directory. 
+
+    To run main_MD.x, it needs: MD.input. It is like:
+-------------------------------------------------------------
+xatom_m.configMN               ! xatom.config
+    1, 30000, 1.0, 300, 300     ! iMD,MDstep,dt,T1,T2
+    F                           ! T or F, IN.MDOPT
+    1                           ! imodel: 1, linear; 2, VV; 3, NN
+    120                         ! Ecut2 (Ryd) for Coulomb calc.
+    0.04                        ! mix factor for Ekin2
+    4.0                         ! Rbox cut (A) for charge sphere of each center
+    5                           ! MOVEMENT output interval
+ ----------------------------
+      10   5                      ! natom_m (num atom in one mol), ntype_ML (types in linear parameter    s.py)
+      1   1   16.0                ! iat_ind(in mol), itype_atom,  mass, this is for ML_linear
+      2   1   16.0                ! the itype_atom is the type defined in parameters.py
+      3   2   16.0                ! This does not have the actual izatom identifier
+      4   3   12.0                ! Perhaps we should have one, to double check it
+      5   3   12.0
+      6   4   12.0
+      7   5   1.0
+      8   5   1.0
+      9   5   1.0
+      10   5   1.0
+ --------------------
+      72  72  96                  ! (n1,n2,n3) for the whole system, related to xatom.config
+      72  72  96                  ! (nm1,nm2,nm3) for the molecule box (related to AL being n1,n2,n3)
+ ---------------------
+        20, 10                      ! ncent, ntype_cent   (num of center, and center type)
+     1  6.0  1      1     1.00000    ! itype_center,Z_center,num_atom(cent),iat_cent(i),w_cent(i)
+     1  6.0  1      2     1.00000
+     2  6.0  1      3     1.00000
+     3  4.0  1      4     1.00000
+     3  4.0  1      5     1.00000
+     4  4.0  1      6     1.00000
+     5  1.0  1      7     1.00000
+     5  1.0  1      8     1.00000
+     5  1.0  1      9     1.00000
+     5  1.0  1     10     1.00000
+     6  0    2      4      1     0.50000     0.50000
+     6  0    2      5      2     0.50000     0.50000
+     7  0    2      5      4     0.50000     0.50000
+     8  0    2      6      1     0.50000     0.50000
+     8  0    2      6      2     0.50000     0.50000
+     9  0    2      6      3     0.50000     0.50000
+     10 0    2      7      4     0.50000     0.50000
+     10 0    2      8      4     0.50000     0.50000
+     10 0    2      9      5     0.50000     0.50000
+     10 0    2     10      5     0.50000     0.50000
+ -------------------------------
+ -------------------------------
+   The most important thing is that, its xatom.config is different from the PWmat xatom.config. 
+   It has the following format (which is used to identify the molecular structure). 
+  ------------------------------------------------------------
+    120          12          10   ! natom, nmolecule, natom_mol
+    Lattice vector
+    0.1052760000000E+02   0.0000000000000E+00   0.0000000000000E+00
+    0.0000000000000E+00   0.1052760000000E+02   0.0000000000000E+00
+    0.0000000000000E+00   0.0000000000000E+00   0.1403680000000E+02
+    Position
+     8       0.3078030282      0.6717154738      0.9481283521  1 1 1      1
+     8       0.2563736405      0.5392792656      0.0698940233  1 1 1      1
+     8       0.1687548157      0.7388481242      0.0617272772  1 1 1      1
+     6       0.3713820280      0.5524183987      0.9256546419  1 1 1      1
+     6       0.3523232400      0.4742491332      0.0198148747  1 1 1      1
+     6       0.2379988586      0.6603373138      0.0275764766  1 1 1      1
+     1       0.3326653753      0.5145426266      0.8583311121  1 1 1      1
+     1       0.4711851096      0.5784770742      0.9194224781  1 1 1      1
+     1       0.4435501181      0.4781126643      0.0572335108  1 1 1      1
+     1       0.3251979527      0.3756548319      0.0087166141  1 1 1      1
+     8       0.3078030282      0.6717154738      1.2814616854  1 1 1      2
+     8       0.2563736405      0.5392792656      0.4032273566  1 1 1      2
+     8       0.1687548157      0.7388481242      0.3950606105  1 1 1      2
+     6       0.3713820280      0.5524183987      1.2589879752  1 1 1      2
+     6       0.3523232400      0.4742491332      0.3531482080  1 1 1      2
+     6       0.2379988586      0.6603373138      0.3609098099  1 1 1      2
+     1       0.3326653753      0.5145426266      1.1916644454  1 1 1      2
+     1       0.4711851096      0.5784770742      1.2527558114  1 1 1      2
+     1       0.4435501181      0.4781126643      0.3905668441  1 1 1      2
+     1       0.3251979527      0.3756548319      0.3420499475  1 1 1      2
+     8       0.3078030282      0.6717154738      1.6147950188  1 1 1      3
+     8       0.2563736405      0.5392792656      0.7365606900  1 1 1      3
+     8       0.1687548157      0.7388481242      0.7283939439  1 1 1      3
+     6       0.3713820280      0.5524183987      1.5923213086  1 1 1      3
+     6       0.3523232400      0.4742491332      0.6864815414  1 1 1      3
+     6       0.2379988586      0.6603373138      0.6942431433  1 1 1      3
+     1       0.3326653753      0.5145426266      1.5249977788  1 1 1      3
+     1       0.4711851096      0.5784770742      1.5860891447  1 1 1      3
+     1       0.4435501181      0.4781126643      0.7239001774  1 1 1      3
+     1       0.3251979527      0.3756548319      0.6753832808  1 1 1      3
+     ...............
+ -------------------------------------------------
+   The first line is: number of atom (natom); number of molecule (nmolecule); 
+   number of atom in each molecule (natom_mol). 
+   The last column indicates what molecule each atom belong (1,2,3...). 
+   Note: the order matters. Here, within each molecule, the atomic order must be
+   the same as in the ncent,ncent_type description in the above files.  
+
+   In the output MOVEMENT, the atom index order will not be changed (unlike the PWmat). 
+   Other than that, all the output are just like in PWmat. 
+-----------------------------------------------------
+
+ 
+
+
+
+   
+    
+    
+
+     
+
+
+
+
+ 
+
+  
+
+  
+ 
+
+    

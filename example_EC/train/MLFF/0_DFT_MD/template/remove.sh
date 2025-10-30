@@ -1,0 +1,6 @@
+#!/bin/bash
+
+  rm ./OUT.* output MOVEMENT MDSTEPS REPORT TIMELOG ORIGIN.INDEX
+
+
+

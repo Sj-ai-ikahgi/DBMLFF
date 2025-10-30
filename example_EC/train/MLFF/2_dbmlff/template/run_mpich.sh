@@ -1,0 +1,48 @@
+#!/bin/sh
+#SBATCH --partition=@partition
+#SBATCH --job-name=@job
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --gres=gpu:1
+#SBATCH --gpus-per-task=1
+
+
+UDA_HOME="/share/app/cuda/cuda-11.3"
+export LD_LIBRARY_PATH="${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}"
+export CPATH="${CUDA_HOME}/include:${CPATH}"
+export PATH="${CUDA_HOME}/bin:${PATH}"
+
+#nvhpc
+export NVARCH="$(uname -s)_$(uname -m)"
+export NVCOMPILERS="/share/app/nvhpc22.2"
+export MANPATH="${NVCOMPILERS}/${NVARCH}/22.2/compilers/man:${MANPATH}"
+export PATH="${NVCOMPILERS}/${NVARCH}/22.2/compilers/bin:${PATH}"
+
+#mkl
+. /share/app/intel2020u4/parallel_studio_xe_2020/psxevars.sh
+
+#mpich
+MPICH_HOME=@mpichHome
+export LD_LIBRARY_PATH="${MPICH_HOME}/lib:${LD_LIBRARY_PATH}"
+export CPATH="${MPICH_HOME}/include:${CPATH}"
+export PATH="${MPICH_HOME}/bin:${PATH}"
+
+#nccl
+NCCL_HOME="/share/app/nvhpc22.2/Linux_x86_64/22.2/comm_libs/nccl"
+export LD_LIBRARY_PATH="${NCCL_HOME}/lib:${LD_LIBRARY_PATH}"
+
+
+codePath=@codePath
+
+rm -f OUT.* main_MD.x_*
+
+for cid in `seq 1 @confNum`
+do
+  echo ${cid}
+  cp ../../MLFF_dataset/Conf_@sId/DFT_${cid}.config ./atom.config
+  mpirun -np ${SLURM_NPROCS} ${codePath}/main_MD.x >> main_MD.x_out 2>&1 >> main_MD.x_err
+done
+
+exit 0
+
+

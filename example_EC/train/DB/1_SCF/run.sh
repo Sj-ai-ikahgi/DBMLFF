@@ -1,0 +1,37 @@
+#!/bin/sh
+#SBATCH --partition=1080ti
+#SBATCH --job-name=DB_SCF
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=4
+#SBATCH --gres=gpu:4
+#SBATCH --gpus-per-task=1
+
+module load compiler mkl mpi
+module load cuda/11.6
+module load pwmat
+
+
+pwd=`pwd`
+rm -rf SCF && mkdir SCF
+
+for mid in `seq 1 1 50`
+do
+  wdir="SCF/${mid}"
+
+  rm -rf ${wdir} && mkdir ${wdir}
+  cd ${wdir}
+
+  cp -p ${pwd}/DFT_SCF/* .
+
+  icn="DFT_${mid}.config"
+  cp -p ${pwd}/Conf/${icn} ./atom.config
+
+  mpirun -np $SLURM_NPROCS PWmat | tee output
+
+  cd ${pwd}
+done
+
+wait
+
+
+

@@ -1,0 +1,33 @@
+4 1 
+JOB = RELAX
+IN.ATOM = atom.config
+
+IN.PSP1=/data/home/xiongrui1/sabaisheng/Shenjie/fitting/EA/SG/H.nc.pbe.UPF
+IN.PSP2=/data/home/xiongrui1/sabaisheng/Shenjie/fitting/EA/SG/C.nc.pbe.UPF
+IN.PSP3=/data/home/xiongrui1/sabaisheng/Shenjie/fitting/EA/SG/O.nc.pbe.UPF
+
+
+xcfunctional = LDA
+
+ECUT = 50
+MP_N123 = 1 1 1 0 0 0 2 
+SYMM_PREC = 1e-5
+CONVERGENCE = easy
+SPIN = 1
+VDW = NONE
+RELAX_DETAIL = 1 200 0.05 0 0.01
+NET_CHARGE = 0
+#NUM_ELECTRON = 32.00
+IN.VR = F
+IN.RHO = F
+IN.WG = F
+#NUM_BAND = 26
+ACCURACY = HIGH
+MAX_NONSCF_ITER = 6
+MAX_SCF_ITER = 100
+SCF_ITER0_1 =  6 4 3 0.0 0.025 1
+SCF_ITER0_2 =  100 4 3 1.0 0.025 1
+SCF_ITER1_1 =  40 4 3 1.0 0.025 1
+MAX_REST_ITER = 40
+MIN_SCF_ITER = 1
+

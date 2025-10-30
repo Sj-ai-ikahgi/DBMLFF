@@ -1,0 +1,61 @@
+import numpy as np 
+from coord_transform_aux import *
+
+
+def Read_Dis_Matrix(ifilename,natoms):
+
+  dis_matrix = np.zeros([natoms, natoms], dtype=int)
+
+  isfile = open(ifilename, 'r')
+  isfile.readline()
+  for i in range(natoms):
+    token = isfile.readline().split()
+    for j in range(natoms):
+      dis_matrix[i][j] = int(token[j+1])
+  isfile.close()
+
+  return dis_matrix
+
+
+
+bond_cutoff = 1.1
+
+def Bond_Len_List(natoms, atom_dist, coords, lattice, molType):
+
+  # for i in range(natoms):
+  #   for j in range(i):
+  #     atom_dist[i][j] = atom_dist[j][i]
+
+  neigh_list = [[] for i in range(natoms)]
+  bond_len = [[] for i in range(natoms)]
+  bond_num = 0
+
+  for i in range(natoms):
+    for j in range(i+1, natoms):
+      if 0.1 < atom_dist[i][j] < bond_cutoff:
+        neigh_list[i].append(j+1)
+        dr, d = two_atom_distance(coords, lattice, i, j)
+        bond_len[i].append(d)
+        bond_num += 1
+
+  osfile = open("bond.molecule." + molType, 'w')
+  osfile.write("   %7d\n" % (bond_num))
+  for i in range(natoms):
+    for j in range(len(neigh_list[i])):
+      osfile.write("%5d %5d %7.3f  20.0 \n" % (i+1, neigh_list[i][j], bond_len[i][j]))
+  osfile.close()
+
+
+
+molType = "PC"
+natoms = 13
+ifilename = "./dis_matrix_" + molType + ".dat"
+atom_dist = Read_Dis_Matrix(ifilename, natoms)
+
+
+isfile = open("./reference_conf/atom_" + molType + ".config")
+natoms, lattice, eindex, coords = Read_One_Config(isfile)
+isfile.close()
+Bond_Len_List(natoms, atom_dist, coords, lattice, molType)
+
+
