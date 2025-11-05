@@ -47,13 +47,12 @@ interaction_energy/
 │   ├── pbe_d3/                     # PBE-D3 calculated binding energies
 │   ├── process_energy.py           # Script to compute and analyze energies across all methods
 │   └── plot.py                     # Script for comparative visualization
-├── EA-Li/                          # EA-Li cation interaction energies
-│   ├── dbmlff/                     # DBMLFF calculated binding energies
-│   ├── dft/                        # DFT (LDA) calculated binding energies
-│   ├── pbe_d3/                     # PBE-D3 calculated binding energies
-│   ├── process_energy.py           # Script to compute and analyze energies across all methods
-│   └── plot.py                     # Script for comparative visualization
-└── README.md                       # This file
+└── EA-Li/                          # EA-Li cation interaction energies
+    ├── dbmlff/                     # DBMLFF calculated binding energies
+    ├── dft/                        # DFT (LDA) calculated binding energies
+    ├── pbe_d3/                     # PBE-D3 calculated binding energies
+    ├── process_energy.py           # Script to compute and analyze energies across all methods
+    └── plot.py                     # Script for comparative visualization
 ```
 
 ### MSD_Ion_conductor - Ionic Conductor Mean Squared Displacement Toolkit
