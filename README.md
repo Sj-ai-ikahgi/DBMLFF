@@ -31,7 +31,31 @@ We provide pre-trained DBMLFF models for other molecules that can be directly us
 # Copy pre-trained model to your simulation directory
 cp model/mol.EC  your_simulation_directory/mol.1
 ```
-﻿
+
+### interaction_energy
+
+## Overview
+This directory contains interaction energy calculations for EA (ethyl acetate) molecular systems, including both EA-Li and EA-EA interactions. The analysis compares binding energies computed using DBMLFF with traditional DFT methods (LDA and PBE-D3).
+
+## Directory Structure
+
+```
+interaction_energy/
+├── EA-EA/                          # EA-EA dimer interaction energies
+│   ├── dbmlff/                     # DBMLFF calculated binding energies
+│   ├── dft/                        # DFT (LDA) calculated binding energies  
+│   ├── pbe_d3/                     # PBE-D3 calculated binding energies
+│   ├── process_energy.py           # Script to compute and analyze energies across all methods
+│   └── plot.py                     # Script for comparative visualization
+├── EA-Li/                          # EA-Li cation interaction energies
+│   ├── dbmlff/                     # DBMLFF calculated binding energies
+│   ├── dft/                        # DFT (LDA) calculated binding energies
+│   ├── pbe_d3/                     # PBE-D3 calculated binding energies
+│   ├── process_energy.py           # Script to compute and analyze energies across all methods
+│   └── plot.py                     # Script for comparative visualization
+└── README.md                       # This file
+```
+
 ### MSD_Ion_conductor - Ionic Conductor Mean Squared Displacement Toolkit
 
 ## Overview
