@@ -1,0 +1,26 @@
+     atom.config                 ! xatom.config
+     2, 0, 0.5, 300, 300         ! iMD,MDstep,dt,T1,T2
+     F                           ! T or F, IN.MDOPT
+     5                           ! e_stress_step, every 10 step, calculate on e_stress
+     1, 1, 1, 1, 0, T            ! iflag_mlff,iflag_model(1, linear; 2, VV; 3, NN),iflag_charge,iflag_polar,iflag_training,ifag_debug
+     120                         ! Ecut2 (Ryd) for Coulomb calc. 
+     0.025                       ! mix factor for Ekin2
+     4.5                         ! Rbox cut (A) for charge sphere of each center
+     1                           ! MOVEMENT output interval
+     72 72 72
+     2                           ! ntype_m  (molecule type) (stored in mol.info.1, mol.info.2)
+     5   5                       ! 5 5 5 5                       ! E_polar_max(eV)
+     72 72 72
+     72 72 72
+     8  1                         !  nuclear_type (ion,or atom) 
+     8, 6.0, O.nc.pbe.UPF.ionrhoR  ! iatom,Z,a1,a2,a3,a4,file_name
+     6, 4.0, C.nc.pbe.UPF.ionrhoR
+     1, 1.0, H.nc.pbe.UPF.ionrhoR
+     3, 3.0, Li.nc.pbe.UPF.ionrhoR
+     15, 5.0,P.nc.pbe.UPF.ionrhoR 
+     9, 7.0, F.nc.pbe.UPF.ionrhoR
+     7, 5.0, N.nc.pbe.UPF.ionrhoR
+     16, 6.0, S.nc.pbe.UPF.ionrhoR
+     0                           ! iflag_dftd3: 1, on; 0, off
+     0                           ! iflag_molecule_pair_correction: 1, on; 0, off
+     0.5                         ! polar_factor

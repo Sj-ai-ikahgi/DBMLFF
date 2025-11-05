@@ -1,0 +1,392 @@
+ 4 1
+ USE_GAUSSIAN =   F
+ PRECISION  = SINGLE     
+ JOB       = SCF
+ IN.PSP1   = /data/home/xiongrui1/sabaisheng/Shenjie/fitting/FSI/dataset/Pseudopotential/H.nc.pbe.UPF
+ IN.PSP2   = /data/home/xiongrui1/sabaisheng/Shenjie/fitting/FSI/dataset/Pseudopotential/N.nc.pbe.UPF
+ IN.PSP3   = /data/home/xiongrui1/sabaisheng/Shenjie/fitting/FSI/dataset/Pseudopotential/C.nc.pbe.UPF
+ IN.PSP4   = /data/home/xiongrui1/sabaisheng/Shenjie/fitting/FSI/dataset/Pseudopotential/O.nc.pbe.UPF
+ IN.PSP5   = /data/home/xiongrui1/sabaisheng/Shenjie/fitting/FSI/dataset/Pseudopotential/F.nc.pbe.UPF
+ IN.PSP6   = /data/home/xiongrui1/sabaisheng/Shenjie/fitting/FSI/dataset/Pseudopotential/Li.nc.pbe.UPF
+ IN.ATOM   = atom.config         
+ CONVERGENCE  = EASY
+ ACCURACY  = NORM
+ VFF_DETAIL =   1   500  0.50000000E-02     30.00000     4.00000     0.00000     1.50000  
+ EGG_DETAIL =            3           3           3
+ SPIN      =   1
+ CONSTRAINT_MAG =           0
+ RANDOM_SEED=           0
+ QIJ_DETAIL =   0  1
+ SCF_MIX = CHARGE
+ PWSCF_OUTPUT     =  F
+ IN.GAUSSIANOPT =   F
+ OUT.GAUSSIAN =   F
+ OUT.RHO_DM_GAUSSIAN =   F
+ OUT.GTH2UPF =   F
+ Ecut      =    60.0000000000000     
+ Ecut2     =    120.000000000000     
+ Ecut2L    =    120.000000000000     
+ EcutP    =    60.0000000000000     
+ N123_METH =            0
+ N123      =   100   100   100
+ NS123     =    42    42    42
+ N123L     =   100   100   100
+ STRESS_CORR =   0.100000E+01  0.000000E+00  0.200000E+01  0.000000E+00
+ XCFUNCTIONAL = PBE
+ USE_CUDA_PBE =  F
+ HSE_DETAIL    =      1.00000000    1     0.00000000    6 1 1
+ RELAX_HSE    =    20   0.50000E-01     2
+ DFTD3_CUTOFF      =    94.8683298050514     
+ DFTD3_CUTOFF_CN      =    40.0000000000000     
+ VDW       = DFT-D3
+ LONDON_S6      =   0.000000000000000E+000
+ LONDON_C6(1)      =   -1.00000000000000     
+ LONDON_C6(2)      =   -1.00000000000000     
+ LONDON_C6(3)      =   -1.00000000000000     
+ LONDON_C6(4)      =   -1.00000000000000     
+ LONDON_C6(5)      =   -1.00000000000000     
+ LONDON_C6(6)      =   -1.00000000000000     
+ LONDON_RCUT      =   0.000000000000000E+000
+ DFTD3_S6        =    1.00000000000000     
+ DFTD3_RS6        =    1.21700000000000     
+ DFTD3_S18        =   0.722000000000000     
+ DFTD3_RS18        =    1.00000000000000     
+ DFTD3_ALPHA6        =    14.0000000000000     
+ DFTD3_VERSION        =            3
+ DFTD3_3BODY        =  T
+ COULOMB   =    0
+ IN.WG     =  F
+ OUT.WG    =  F
+ IN.RHO    =  F
+ OUT.RHOATOM =  F
+ OUT.RHO   =  T
+ IN.VR     =  F
+ OUT.VR    =  T
+ OUT.ELF   =  F  1.000000000000000E-004
+ IN.VEXT   =  F
+ OUT.VATOM   =  F
+ OUT.FORCE =  T
+ OUT.STRESS =  F
+ IN.KPT    =  F
+ IN.SYMM   =  F
+ SYMM_PREC =    0.10000E-04
+ MP_N123 =      1      1      1      0      0      0      0
+ NUM_KPT =            1
+ CHARGE_DECOMP = F           1
+ ENERGY_DECOMP = F 
+ IN.SOLVENT =  F
+ NUM_ELECTRON =   72.0000000000000     
+ FIX_FERMI =   F  0.000000E+00  0.000000E+00  0.000000E+00
+ FIX_FERMI_SPECIAL = F           1   10000.0000000000     
+ FIX_FERMI_PULAY_MIXING    =            0
+ IN.NONSCF    =  F
+ NUM_BAND  =    47
+ OUT.REAL.RHOWF_SP= 0
+ WG_ERROR  =   1.000000000000000E-004
+ E_ERROR   =   1.959219793440000E-004
+ RHO_ERROR =   5.000000000000000E-005
+ RHO_RELATIVE_ERROR      =   0.000000000000000E+000
+ FORCE_RELATIVE_ERROR     =   0.000000000000000E+000
+ ONE_NODE_WMASK   =  F
+ MIN_SCF_ITER     =            1
+ MAX_SCF_ITER     =          100
+ SYS_TYPE   =            1
+ MIX_PATTERN =            0
+ PULAY_MIX_OPT =     30  1  0       1.00000       0.00000
+ PULAY_METRIC_Q0 =       -1.00000
+ IN.OCC    =  F          -1
+ IN.CC    =  F
+ IN.OCC_ADIA    =  F
+ SCF_ITER0_1 =      6        4    3    0.0000     0.02500    1
+ SCF_ITER0_2 =     94        4    3    1.0000     0.02500    1
+ SCF_ITER1_1 =       100        4    3    1.0000     0.02500    1
+ NONLOCAL  =  2
+ FLAG_CYLINDER =            0
+ IN.A_FIELD =  F       0.00000       0.00000       0.00000
+ RCUT      =    4.00000000000000     
+ IN.PSP_RCUT1 =   4.00000000000000     
+ IN.PSP_RCUT2 =   4.00000000000000     
+ IN.PSP_RCUT3 =   4.00000000000000     
+ IN.PSP_RCUT4 =   4.00000000000000     
+ IN.PSP_RCUT5 =   4.00000000000000     
+ IN.PSP_RCUT6 =   4.00000000000000     
+ MD_VV_SCALE =    100
+ LDAU_PSP1   =           -1  2.721138638331097E-009  2.721138638331097E-009  eV
+ LDAU_PSP2   =           -1  2.721138638331097E-009  2.721138638331097E-009  eV
+ LDAU_PSP3   =           -1  2.721138638331097E-009  2.721138638331097E-009  eV
+ LDAU_PSP4   =           -1  2.721138638331097E-009  2.721138638331097E-009  eV
+ LDAU_PSP5   =           -1  2.721138638331097E-009  2.721138638331097E-009  eV
+ LDAU_PSP6   =           -1  2.721138638331097E-009  2.721138638331097E-009  eV
+ NUM_BLOCKED_PSI=  F
+ WF_STORE2DISK  =            0
+ NUM_DOS_GRID =         4000
+ DOS_GAUSSIAN_BROADENING =   5.000000000000000E-002
+ NMAP_MAX =        50000
+ KERK_AMIN =   0.300000000000000     
+ KERK_AMIX =   0.400000000000000     
+ KERK_AMIX_MAG =   0.400000000000000     
+ KERK_BMIX =   0.500000000000000     
+ KERK_BMIX_MAG =   1.000000000000000E-005
+ LDAU_MIX =   0.700000000000000     
+ PULAY_WEIGHT_SPIN =    1.00000000000000     
+ PULAY_WEIGHT_NS =    1.00000000000000     
+ OUT.MLMD    =  F
+ NUM_MPI_PER_GPU =     1
+ SET_OUT_FERMI_POS =  F           0
+ E_FINITE =  F   0.00000E+00   0.00000E+00   0.00000E+00
+ MLINE_EIGEN =      1
+ 
+ ------------------------------------------------
+ total number of K-point:           1
+   0.00000     0.00000    0.00000     1.00000            
+ ------------------------------------------------
+ 
+ 
+ *********************************************
+ *********** end of etot.input report ********
+ minimum n1,n2,n3 from Ecut2
+      98.840       98.840       98.840
+ minimum n1L,n2L,n3L from Ecut2L
+      98.840       98.840       98.840
+ *********************************************
+ 
+ 
+Weighted average num_of_PW for all kpoint=                       178925.000
+ ************************************
+ E_Hxc(eV)         4804.48222182688     
+ E_ion(eV)        -13520.6872014492     
+ E_Coul(eV)        5665.49649730610     
+ E_Hxc+E_ion(eV)  -8716.20497962231     
+ NONSCF     1          AVE_STATE_ERROR= 0.9201E+00
+ NONSCF     2          AVE_STATE_ERROR= 0.3299E+00
+ NONSCF     3          AVE_STATE_ERROR= 0.1105E+00
+ NONSCF     4          AVE_STATE_ERROR= 0.2234E-01
+ NONSCF     5          AVE_STATE_ERROR= 0.3431E-02
+ NONSCF     6          AVE_STATE_ERROR= 0.5577E-03
+ iter=   7   ave_lin=  4.0  iCGmth=   3
+ Ef(eV)               = -.5039178E+01
+ err of ug            = 0.1956E-03
+ dv_ave, drho_tot     = 0.0000E+00 0.2373E+00
+ E_tot(eV)            = -.32512018468323E+04    -.3251E+04
+ -------------------------------------------
+ iter=   8   ave_lin=  4.0  iCGmth=   3
+ Ef(eV)               = -.4459213E+01
+ err of ug            = 0.1620E-01
+ dv_ave, drho_tot     = 0.1493E-01 0.1425E+00
+ E_tot(eV)            = -.32413701922770E+04    0.9832E+01
+ -------------------------------------------
+ iter=   9   ave_lin=  4.0  iCGmth=   3
+ Ef(eV)               = -.4307826E+01
+ err of ug            = 0.9108E-02
+ dv_ave, drho_tot     = 0.1741E-01 0.7348E-01
+ E_tot(eV)            = -.32374019709520E+04    0.3968E+01
+ -------------------------------------------
+ iter=  10   ave_lin=  4.0  iCGmth=   3
+ Ef(eV)               = -.4305121E+01
+ err of ug            = 0.2770E-02
+ dv_ave, drho_tot     = 0.1571E-01 0.4482E-01
+ E_tot(eV)            = -.32363243334176E+04    0.1078E+01
+ -------------------------------------------
+ iter=  11   ave_lin=  4.0  iCGmth=   3
+ Ef(eV)               = -.4283165E+01
+ err of ug            = 0.1288E-02
+ dv_ave, drho_tot     = 0.9588E-02 0.3071E-01
+ E_tot(eV)            = -.32359728026685E+04    0.3515E+00
+ -------------------------------------------
+ iter=  12   ave_lin=  4.0  iCGmth=   3
+ Ef(eV)               = -.4217135E+01
+ err of ug            = 0.6849E-03
+ dv_ave, drho_tot     = 0.1292E-01 0.2107E-01
+ E_tot(eV)            = -.32357815377405E+04    0.1913E+00
+ -------------------------------------------
+ iter=  13   ave_lin=  4.0  iCGmth=   3
+ Ef(eV)               = -.4049885E+01
+ err of ug            = 0.6671E-03
+ dv_ave, drho_tot     = 0.1121E-01 0.1718E-01
+ E_tot(eV)            = -.32357173419619E+04    0.6420E-01
+ -------------------------------------------
+ iter=  14   ave_lin=  4.0  iCGmth=   3
+ Ef(eV)               = -.3804563E+01
+ err of ug            = 0.3509E-03
+ dv_ave, drho_tot     = 0.1469E-01 0.1431E-01
+ E_tot(eV)            = -.32356567153550E+04    0.6063E-01
+ -------------------------------------------
+ iter=  15   ave_lin=  4.0  iCGmth=   3
+ Ef(eV)               = -.3583797E+01
+ err of ug            = 0.3609E-03
+ dv_ave, drho_tot     = 0.1688E-01 0.1201E-01
+ E_tot(eV)            = -.32356664280384E+04    -.9713E-02
+ -------------------------------------------
+ iter=  16   ave_lin=  4.0  iCGmth=   3
+ Ef(eV)               = -.3519385E+01
+ err of ug            = 0.3473E-03
+ dv_ave, drho_tot     = 0.1769E-01 0.8880E-02
+ E_tot(eV)            = -.32357858995522E+04    -.1195E+00
+ -------------------------------------------
+ iter=  17   ave_lin=  4.0  iCGmth=   3
+ Ef(eV)               = -.3486291E+01
+ err of ug            = 0.1958E-03
+ dv_ave, drho_tot     = 0.7689E-02 0.7776E-02
+ E_tot(eV)            = -.32358017799758E+04    -.1588E-01
+ -------------------------------------------
+ iter=  18   ave_lin=  4.0  iCGmth=   3
+ Ef(eV)               = -.3495451E+01
+ err of ug            = 0.1669E-03
+ dv_ave, drho_tot     = 0.1734E-01 0.5667E-02
+ E_tot(eV)            = -.32358524716703E+04    -.5069E-01
+ -------------------------------------------
+ iter=  19   ave_lin=  4.0  iCGmth=   3
+ Ef(eV)               = -.3489370E+01
+ err of ug            = 0.1912E-03
+ dv_ave, drho_tot     = 0.1288E-01 0.4267E-02
+ E_tot(eV)            = -.32358712245992E+04    -.1875E-01
+ -------------------------------------------
+ iter=  20   ave_lin=  4.0  iCGmth=   3
+ Ef(eV)               = -.3500245E+01
+ err of ug            = 0.1047E-03
+ dv_ave, drho_tot     = 0.9893E-02 0.3525E-02
+ E_tot(eV)            = -.32358777926255E+04    -.6568E-02
+ -------------------------------------------
+ iter=  21   ave_lin=  3.0  iCGmth=   3
+ Ef(eV)               = -.3485043E+01
+ err of ug            = 0.1123E-03
+ dv_ave, drho_tot     = 0.1073E-01 0.2632E-02
+ E_tot(eV)            = -.32358843797128E+04    -.6587E-02
+ -------------------------------------------
+ iter=  22   ave_lin=  3.0  iCGmth=   3
+ Ef(eV)               = -.3460317E+01
+ err of ug            = 0.8138E-04
+ dv_ave, drho_tot     = 0.9534E-02 0.2118E-02
+ E_tot(eV)            = -.32358872268834E+04    -.2847E-02
+ -------------------------------------------
+ iter=  23   ave_lin=  3.0  iCGmth=   3
+ Ef(eV)               = -.3425390E+01
+ err of ug            = 0.7876E-04
+ dv_ave, drho_tot     = 0.8531E-02 0.1774E-02
+ E_tot(eV)            = -.32358892264006E+04    -.2000E-02
+ -------------------------------------------
+ iter=  24   ave_lin=  2.0  iCGmth=   3
+ Ef(eV)               = -.3397981E+01
+ err of ug            = 0.1252E-03
+ dv_ave, drho_tot     = 0.8914E-02 0.1408E-02
+ E_tot(eV)            = -.32358927680566E+04    -.3542E-02
+ -------------------------------------------
+ iter=  25   ave_lin=  2.0  iCGmth=   3
+ Ef(eV)               = -.3384324E+01
+ err of ug            = 0.1149E-03
+ dv_ave, drho_tot     = 0.8672E-02 0.1150E-02
+ E_tot(eV)            = -.32358956233900E+04    -.2855E-02
+ -------------------------------------------
+ iter=  26   ave_lin=  2.0  iCGmth=   3
+ Ef(eV)               = -.3384063E+01
+ err of ug            = 0.9553E-04
+ dv_ave, drho_tot     = 0.7871E-02 0.8599E-03
+ E_tot(eV)            = -.32358980019759E+04    -.2379E-02
+ -------------------------------------------
+ iter=  27   ave_lin=  2.0  iCGmth=   3
+ Ef(eV)               = -.3385501E+01
+ err of ug            = 0.8247E-04
+ dv_ave, drho_tot     = 0.7146E-02 0.6213E-03
+ E_tot(eV)            = -.32358997238562E+04    -.1722E-02
+ -------------------------------------------
+ iter=  28   ave_lin=  2.0  iCGmth=   3
+ Ef(eV)               = -.3385933E+01
+ err of ug            = 0.6254E-04
+ dv_ave, drho_tot     = 0.6517E-02 0.4186E-03
+ E_tot(eV)            = -.32359008558414E+04    -.1132E-02
+ -------------------------------------------
+ iter=  29   ave_lin=  1.0  iCGmth=   3
+ Ef(eV)               = -.3383767E+01
+ err of ug            = 0.7427E-04
+ dv_ave, drho_tot     = 0.3938E-02 0.3400E-03
+ E_tot(eV)            = -.32359011270963E+04    -.2713E-03
+ -------------------------------------------
+ iter=  30   ave_lin=  1.0  iCGmth=   3
+ Ef(eV)               = -.3365828E+01
+ err of ug            = 0.1104E-03
+ dv_ave, drho_tot     = 0.5539E-02 0.2622E-03
+ E_tot(eV)            = -.32359016783436E+04    -.5512E-03
+ -------------------------------------------
+ iter=  31   ave_lin=  1.0  iCGmth=   3
+ Ef(eV)               = -.3355877E+01
+ err of ug            = 0.7060E-04
+ dv_ave, drho_tot     = 0.3546E-02 0.1812E-03
+ E_tot(eV)            = -.32359019240077E+04    -.2457E-03
+ -------------------------------------------
+ iter=  32   ave_lin=  1.0  iCGmth=   3
+ Ef(eV)               = -.3346854E+01
+ err of ug            = 0.7378E-04
+ dv_ave, drho_tot     = 0.4072E-02 0.1360E-03
+ E_tot(eV)            = -.32359022348098E+04    -.3108E-03
+ -------------------------------------------
+ iter=  33   ave_lin=  1.0  iCGmth=   3
+ Ef(eV)               = -.3339442E+01
+ err of ug            = 0.4107E-04
+ dv_ave, drho_tot     = 0.2355E-02 0.8752E-04
+ E_tot(eV)            = -.32359022798872E+04    -.4508E-04
+ -------------------------------------------
+ E_Fermi(eV)=  -3.33944192999807     
+ ---------------------------------------------------
+ Ef(eV)               = -.3339442E+01
+ dvE, dvE(n)-dvE(n-1) = 0.5548E-05 -.1103E-04
+ dv_ave, drho_tot = 0.2355E-02 0.8752E-04
+ err of ug            = 0.4107E-04
+ ---------------------------------------------------
+ ending_scf_reason = tol Etot_err  1.959219793440000E-004
+ Ewald        = 0.33766287165755E+04
+ Alpha        = 0.30250689748315E+01
+ E_extV       = 0.00000000000000E+00    0.0000E+00
+ E_NSC        = -.91777063152855E+03    0.2673E-01
+ E[-rho*V_Hxc]= -.10752331687194E+05    -.2677E-01
+ E_Hxc        = 0.50545462532847E+04    0.2435E-01
+ -TS          = -.16233224905608E-27    0.0000E+00
+ E_vdw(eV)    = -.24284866690567E+00
+ E_vdw(Ry)    = -.17849047948324E-01
+ E_tot(eV)    = -.32361451285541E+04    -.4508E-04
+ E_tot(Ryd)   = -.23785228184817E+03    -.1657E-05
+ ---------------------------------------------------
+ ---------------------------------------------------
+ occup for:      kpt=1,spin=1,m=(totN/2-2,totN/2+2)
+   1.000    1.000    1.000    0.000    0.000
+ eigen(eV) for:  kpt=1,spin=1,m=(totN/2-2,totN/2+2)
+  -6.838   -5.951   -5.905   -0.621   -0.569
+ ---------------------------------------------------
+ ---------------------------------------------------
+ E_Hart,E_xc,E_ion =0.59705627260375E+04  -.91601647275288E+03  -.13961490425070E+05
+ E_Hxc+E_ion       =-.89069441717853E+04
+ E_kin+E_nonloc    =0.22913881063478E+04
+ E_rhoVext,E_IVext     =0.00000000000000E+00  0.00000000000000E+00
+ E_psiV,E_dDrho =-.32091592768576E+04  0.00000000000000E+00
+ ave(vtot):v0 =-.10755838227944E+01
+ ave(V_ion_s(or p,d))=ave(V_Hatree)=0; ave(Vtot)=ave(V_xc)=v0
+ ---------------------------------------------------
+ *********************************
+ Eigen energies are values after setting ave(Vtot)=0
+ For Vtot=V_ion+V_Hartree+V_xc, and
+ ave(V_ion+V_Hatree)=0, ave(V_xc).ne.0:  E=E+v0
+ *********************************
+iislda,kpt=   1,    1      0.000000     0.000000     0.000000             kpoint in xyz unit 
+ err of each states, A.U
+  0.807027E-05     0.140023E-04     0.696149E-05     0.924898E-05     0.192016E-04
+  0.237548E-04     0.270716E-04     0.292154E-04     0.199236E-04     0.233578E-04
+  0.123706E-04     0.157106E-04     0.186123E-04     0.172198E-04     0.192489E-04
+  0.179347E-04     0.137207E-04     0.163936E-04     0.223215E-04     0.189056E-04
+  0.214843E-04     0.209855E-04     0.217828E-04     0.216316E-04     0.250561E-04
+  0.205818E-04     0.254010E-04     0.276796E-04     0.273535E-04     0.318451E-04
+  0.240224E-04     0.185151E-04     0.210379E-04     0.251076E-04     0.239130E-04
+  0.296699E-04     0.395225E-03     0.307881E-03     0.177369E-02     0.284740E-02
+  0.386294E-02     0.201711E-02     0.374317E-02     0.456167E-02     0.456000E-02
+  0.648374E-02     0.653057E-02
+ eigen energies, in eV 
+    -27.340414       -27.307974       -24.962485       -24.923511       -19.183372
+    -19.160336       -17.909753       -17.869713       -15.365038       -15.347890
+    -13.631498       -13.610252       -11.823274       -11.794888       -11.647609
+    -11.599046       -11.061350       -11.027911       -10.546334       -10.505493
+     -9.701071        -9.661530        -9.371007        -9.356815        -9.107429
+     -9.075657        -9.019312        -8.995377        -8.122694        -8.105751
+     -8.105241        -8.076013        -6.874994        -6.838093        -5.950702
+     -5.905488        -0.621219        -0.569075        -0.509700        -0.125252
+      0.105040         0.124416         0.329204         0.416602         0.491200
+      0.636374         0.728535
+ *********************************
+ total computation time (sec)=   21.8996022939682     
