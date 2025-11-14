@@ -46,9 +46,9 @@ These checkpoints serve as critical references to:
 ```
 check_point/
 ├── molecule_name/
-│   ├── charge_density/          # Fitted electron density parameters
-│   ├── intramolecular_mlff/     # ML force field checkpoints  
-│   └── polarization/            # Polarization model parameters
+│   ├── DB/          # Fitted electron density parameters
+│   ├── MLFF/     # ML force field checkpoints  
+│   └── POL/            # Polarization model parameters
 ```
 
 ### interaction_energy
