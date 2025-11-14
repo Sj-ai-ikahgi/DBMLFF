@@ -1,18 +1,17 @@
-
 # DBMLFF: Linear Scaling Machine Learning Force Fields via Electron Density Decomposition for Molecular Electrolytes
-﻿
-## File Description
-﻿
+
+## Repository Structure
+
 ### example_EC
 We provide a complete working example for building DBMLFF for EC (ethylene carbonate) molecules and performing MD simulations using DBMLFF. The operational workflow can be found in the user guide: `Tutorial.md`
-﻿
-This directory contains:
+
+**Contents:**
 - Step-by-step DBMLFF construction process
 - Molecular dynamics simulation examples
-﻿
+
 ### model
 We provide pre-trained DBMLFF models for other molecules that can be directly used for DBMLFF simulations. These include molecules that have appeared in the paper:
-﻿
+
 **Available Pre-trained Models:**
 - **DMC** (Dimethyl Carbonate)
 - **DME** (Methyl ether) 
@@ -23,22 +22,39 @@ We provide pre-trained DBMLFF models for other molecules that can be directly us
 - **Li** (Lithium ion)
 - **PF6** (Hexafluorophosphate)
 - **TTE** (1,1,2,2-Tetrafluoroethyl-2,2,3,3-tetrafluoropropyl ether)
-﻿
-## Usage of Pre-trained Models
-﻿
-### Direct Application
+
+**Usage:**
 ```bash
 # Copy pre-trained model to your simulation directory
-cp model/mol.EC  your_simulation_directory/mol.1
+cp model/mol.EC your_simulation_directory/mol.1
+```
+
+### check_point
+This directory contains checkpoint files from the DBMLFF training process for all molecules, preserving the complete training outcomes that enable assessment of whether the training has achieved the desired performance. The checkpoints include:
+
+- **Fitted Charge Density (DB)**: Electron density distributions 
+- **Intramolecular MLFF Models**: Machine learning force field parameters for individual molecules  
+- **Polarization Models (POL)**: Polarizability parameters 
+
+These checkpoints serve as critical references to:
+- Verify training convergence and stability
+- Evaluate whether component fitting accuracy meets expected standards
+- Diagnose potential issues during model training
+- Provide detailed debugging information for model optimization
+
+**Directory Structure:**
+```
+check_point/
+├── molecule_name/
+│   ├── charge_density/          # Fitted electron density parameters
+│   ├── intramolecular_mlff/     # ML force field checkpoints  
+│   └── polarization/            # Polarization model parameters
 ```
 
 ### interaction_energy
-
-## Overview
 This directory contains interaction energy calculations for EA (ethyl acetate) molecular systems, including both EA-Li and EA-EA interactions. The analysis compares binding energies computed using DBMLFF with traditional DFT methods (LDA and PBE-D3).
 
-## Directory Structure
-
+**Directory Structure:**
 ```
 interaction_energy/
 ├── EA-EA/                          # EA-EA dimer interaction energies
@@ -56,13 +72,11 @@ interaction_energy/
 ```
 
 ### MSD_Ion_conductor - Ionic Conductor Mean Squared Displacement Toolkit
-
-## Overview
 This toolkit provides a complete workflow for loading DBMLFF trajectory files and calculating the Mean Squared Displacement (MSD) of ionic conductors, including correction factors for ion association effects.
 
-## Usage Instructions
+**Usage Instructions**
 
-### 0. Unwrapped Coordinates
+**0. Unwrapped Coordinates**
 ```bash
 # Submit job
 qsub qsub_unwrapped.sh
@@ -72,7 +86,7 @@ qsub qsub_unwrapped.sh
 ```
 **Main file**: `pwmatMOVEMENT_MSD.py`
 
-### 1. Mean Squared Displacement Calculation
+**1. Mean Squared Displacement Calculation**
 ```bash
 # Submit job
 qsub qsub_msd.sh
@@ -80,34 +94,34 @@ qsub qsub_msd.sh
 # Or run directly
 ./run_msd.sh
 ```
-**Main files**:
+**Main files:**
 - `msd.py` - Calculate MSD
 - `linear_msd_slop.py` - Analyze MSD slope
 
-### 2. Ion Association Correction Factor (Alpha)
+**2. Ion Association Correction Factor (Alpha)**
 ```bash
 # Submit job
 qsub qsub_compose.sh
 ```
-**Main files**:
+**Main files:**
 - `msd_compose.py` - Calculate ion association correction factor
 - `plot_compose_slop_fit.py` - Plot correction factor fitting results
 
-## Workflow
+**Workflow:**
 1. **Trajectory Preprocessing**: Use step 0 to convert DBMLFF trajectories to unwrapped coordinates
 2. **MSD Calculation**: Use step 1 to calculate mean squared displacement and obtain diffusion coefficients
 3. **Association Effect Correction**: Use step 2 to calculate the correction factor α for ion association effects
 
-## Output Files
+**Output Files:**
 Each step will generate corresponding analysis results and chart files. Refer to the documentation of each script for specific output formats.
 
-## Notes
+**Notes:**
 - Ensure correct DBMLFF trajectory file format
 - There are dependencies between steps, please execute in order
 - Adjust parameters in scripts according to your actual system requirements
 
 ## Citation
 If you use these pre-trained models in your research, please cite our paper on DBMLFF methodology.
-﻿
+
 ## Support
 For technical support and additional molecular requests, please contact the development team.
