@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:633571a45067ca4baed29c62c91cc77f075964510bedada2f9b8c334c60dfeb5
-size 1294
+MD_CELL_TAU=   0.20000E+03     #characteristic time for cell oscillations (fs)
+MD_ION_TAU=   0.20000E+02     #characteristic time for particles oscillations (fs)
+MD_BERENDSEN_TAU=   0.25000E+03     #characteristic time for Berendsen velocity scaling  (fs)
+MD_BERENDSEN_TAUP=   0.50000E+02     #characteristic time for Berendsen cell scaling  (fs)
+MD_BERENDSEN_CELL_STEPS=          1     #characteristic time for cell oscillations (fs)
+MD_KINSTRESS_FLAG=          0     #flag to include kinetic stress
+MD_LV_GAMMA=   0.10000E-01     #friction coefficient for particles (fs^-1)
+MD_NPT_GAMMA=   0.10000E-01     #friction coefficient for cell (fs^-1)
+MD_NPT_PEXT=   0.00000E+00     #external hydrastatic pressure (GPa)
+MD_NPT_PEXT_XYZ=   0.00000E+00   0.00000E+00   0.00000E+00      #external hydrastatic pressure (GPa)
+MD_SEED=      12345     #random seed for initializing the velocities
+MD_AVET_TIMEINTERVAL=   0.50000E+02     #time interval to calculate average temperature and pressure (fs)
+MD_NPT_ISOSCALEV=     0     #1--overall scaling of the box; default=0
+NSTEP_OUTPUT_RHO=        100     # step interval to output the charge density
+MD_MSST_VS=   0.00000E+00     # velocity of shock wave (bohr/fs)
+MD_MSST_DIR=     0     # direction of shock wave (0--x, 1--y, 2--z)
+MD_ZERO_TOTMOMENT=  F

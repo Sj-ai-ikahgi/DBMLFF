@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6766cedf132953b91c154ac9cc59db1738bd9566b0ad4da624c490ce2958a394
-size 1079
+CELL_FIX =     0      1  1  1 #cell fix option for cell relax: 0:no-fix; 1:fix_angle; 2:fix_shape
+RELAX_MAXMOVE=   0.10000E+01     #max move distance. unit bohr -- for method=1,5,6
+LBFGS_MEMORY=              30     #LBFGS storage size -- for method=5
+FIRE_DT=   0.10000E+01     #time step. unit fs -- for method=6
+RHOWG_INTER_TYPE=     1     # interpolation type for NEB,0--both rho and wave function; 1--rho
+PSTRESS_EXTERNAL=   0.00000E+00     # external pressure for cell rexattion, unit GPascal
+NSTEP_OUTPUT_RHO=        100     # step interval to output the charge density
+DIMER_dR=       0.01000     # the dimer seperation, unit Bohr
+DIMER_NMAX_ROTS=          1     # the maximum number of rotation for each translation step
+DIMER_NMAX_STEPS=       1000     # the maximum number of translation steps
+DIMER_TOL_FORCE=       0.05000     # force tolerance to judge the convergency, unit eV/Angstrom
+DIMER_MAX_STEPSIZE=       0.10000     # the maximum step size of each translation step, unit Bohr
+UNIT_TOL_STRESS=         eV     # unit of stress tolerance, can be eV, Gpa, kbar
