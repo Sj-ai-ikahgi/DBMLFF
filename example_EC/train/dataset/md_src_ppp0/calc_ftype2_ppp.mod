@@ -1,6 +1,6 @@
 V34 :0x24 calc_ftype2_ppp
 22 gen_3b_feature_ppp.f90 S624 0
-01/30/2024  12:15:57
+12/11/2025  17:11:53
 use mod_mpi public 0 direct
 use nvf_acc_common private
 use iso_c_binding private

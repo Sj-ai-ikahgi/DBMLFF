@@ -2,14 +2,14 @@
 
   # ----- setting parameter start ----- 
 
-  whome="/data/home/xiongrui1/sabaisheng/Shenjie/fitting/EC/train"
-  mpichHome="/data/home/xiongrui1/sabaisheng/Shenjie/fitting/EC/mpich-3.4.3"
+  whome="/path/to/your/example_EC/train"   #Please use absolute paths
+  mpichHome="/path/to/your/mpich"
   partition="3080ti"
 
   # ----- setting parameter end   ----- 
 
   codePath="${whome}/dataset/md_src_ppp0"
-  dataPath="${whome}/MLFF/0_DFT_MD/400K_s"
+  dataPath="${whome}/MLFF/0_DFT_MD/400K"
 
   # set real space grid mesh
   nline=`grep "N123      =" ${dataPath}/REPORT`
@@ -54,7 +54,6 @@
   sed -i "s!@job!${jobName}!g"         run_mpich.sh
   sed -i "s!@mpichHome!${mpichHome}!g" run_mpich.sh
   sed -i "s!@codePath!${codePath}!g"   run_mpich.sh
-  sed -i "s!@dataPath!${dataPath}!g"   run_mpich.sh
 
   bash remove.sh
-  sbatch run_mpich.sh
+  #sbatch run_mpich.sh

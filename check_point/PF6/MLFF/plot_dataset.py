@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # 读取能量数据
-with open("./fread_dfeat/energyL.pred.tot", 'r') as ifile:
+with open("./energyL.pred.tot", 'r') as ifile:
     lines = ifile.readlines()
 
 energy = [[], []]
@@ -26,7 +26,7 @@ eng_mae = np.mean(np.abs(diff))
 eng_r2 = 1 - (np.sum(diff**2) / np.sum((energy[0] - np.mean(energy[0]))**2))
 
 # 读取力数据
-with open("./fread_dfeat/forceL.pred.all", 'r') as ifile:
+with open("./forceL.pred.all", 'r') as ifile:
     lines = ifile.readlines()
 
 force = [[], []]

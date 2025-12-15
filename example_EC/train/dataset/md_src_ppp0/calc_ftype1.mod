@@ -1,6 +1,6 @@
 V34 :0x24 calc_ftype1
 18 gen_2b_feature.f90 S624 0
-01/30/2024  12:15:19
+12/11/2025  17:10:32
 use mod_mpi public 0 direct
 enduse
 D 76 23 6 1 484 482 0 1 0 0 1

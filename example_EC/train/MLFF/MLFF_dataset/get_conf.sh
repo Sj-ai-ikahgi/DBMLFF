@@ -26,3 +26,9 @@ for i in `seq 3 5`
   done
 
   echo " ### check the result in ./temp ### "
+
+# 运行统计脚本
+echo "Running count_removed_molecules.py ..."
+python count_removed_molecules.py
+
+echo "统计完成！"

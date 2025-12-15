@@ -1,14 +1,21 @@
 all: main_MD.x
 
 
-MPI_INC =  -I /data/home/xiongrui1/sabaisheng/Shenjie/fitting/EC/mpich-3.4.3/include
-MPI_LIB =  -L /data/home/xiongrui1/sabaisheng/Shenjie/fitting/EC/mpich-3.4.3/lib
-NCCL_INC = -I /share/app/nvhpc22.2/Linux_x86_64/22.2/comm_libs/nccl/include
-NCCL_LIB = -L /share/app/nvhpc22.2/Linux_x86_64/22.2/comm_libs/nccl/lib
+# ========== Dependency Library Paths ==========
+# Use environment variables with default fallback values
+MPI_HOME ?= /usr/local/mpich
+CUDA_HOME ?= /usr/local/cuda
+NCCL_HOME ?= /usr/local/nccl
+MKL_HOME ?= /opt/intel/mkl
 
-MKL_INC = -I /share/app/intel2020u4/mkl/include
-MKL_LIB = -L /share/app/intel2020u4/mkl/lib
-CUDA_TOOLKIT_ROOT_DIR = /share/app/cuda/cuda-11.3
+# ========== Compilation Flags ==========
+MPI_INC = -I $(MPI_HOME)/include
+MPI_LIB = -L $(MPI_HOME)/lib
+NCCL_INC = -I $(NCCL_HOME)/include
+NCCL_LIB = -L $(NCCL_HOME)/lib -lnccl
+MKL_INC = -I $(MKL_HOME)/include
+MKL_LIB = -L $(MKL_HOME)/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm
+CUDA_TOOLKIT_ROOT_DIR = $(CUDA_HOME)
 
 
 MPIFC = pgfortran

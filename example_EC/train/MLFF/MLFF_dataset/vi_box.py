@@ -115,7 +115,7 @@ def batch_process_configs(input_dir, new_box_size=11.4):
             print(f"An error occurred while processing {input_filename}: {e}")
 
 if __name__ == "__main__":
-    input_directory = "./Conf_1200K"
+    input_directory = "./origin_box/Conf_1200K"
     batch_process_configs(input_directory)
 
 

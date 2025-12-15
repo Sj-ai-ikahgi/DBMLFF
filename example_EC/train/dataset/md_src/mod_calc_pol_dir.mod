@@ -1,6 +1,6 @@
 V34 :0x24 mod_calc_pol_dir
 20 mod_calc_pol_dir.f90 S624 0
-01/20/2024  21:27:23
+12/11/2025  17:07:24
 use nvf_acc_common private
 use iso_c_binding private
 use mod_param_densityff private

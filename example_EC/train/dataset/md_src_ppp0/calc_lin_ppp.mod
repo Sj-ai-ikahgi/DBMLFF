@@ -1,6 +1,6 @@
 V34 :0x24 calc_lin_ppp
 23 calc_lin_forceM_ppp.f90 S624 0
-01/30/2024  12:16:13
+12/11/2025  17:12:26
 use mod_mpi public 0 direct
 use nvf_acc_common private
 use iso_c_binding private

@@ -1,6 +1,6 @@
 V34 :0x24 mod_cuinterface
 19 mod_cuinterface.f90 S624 0
-03/12/2025  16:47:50
+12/11/2025  17:14:01
 use iso_c_binding public 0 direct
 use nvf_acc_common private
 enduse

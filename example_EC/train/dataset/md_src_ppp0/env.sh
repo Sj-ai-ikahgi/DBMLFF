@@ -1,14 +1,58 @@
+#!/bin/bash
+# ==============================================
+# Environment Variables Configuration Template
+# Please modify the following variables according to your system environment
+# ==============================================
 
-CUDA_HOME=/share/app/cuda/cuda-11.3
-export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
-export CPATH=$CUDA_HOME/include:$CPATH
-export PATH=$CUDA_HOME/bin:$PATH
+# ========== CUDA Configuration ==========
+# Please set your CUDA installation path
+export CUDA_HOME=/share/app/cuda/cuda-11.3  # e.g., /usr/local/cuda-11.3
 
-export NVARCH="$(uname -s)_$(uname -m)"
-export NVCOMPILERS=/share/app/nvhpc22.2
-export MANPATH=$NVCOMPILERS/$NVARCH/22.2/compilers/man:$MANPATH
-export PATH=$NVCOMPILERS/$NVARCH/22.2/compilers/bin:$PATH
+# ========== MPI Configuration ==========
+# Please set your MPI installation path
+# Option 1: Use pre-compiled MPI in the project directory
+# export MPI_HOME=$(pwd)/../../mpich-3.4.3
+# Option 2: Use system MPI installation
+export MPI_HOME=/data/home/xiongrui1/sabaisheng/Shenjie/gittest/DBMLFF_fresh/example_EC/mpich-3.4.3  # e.g., /usr/local/mpich
 
+# ========== NVIDIA HPC SDK Configuration ==========
+# Please set your NVIDIA HPC SDK installation path (for pgfortran compiler)
+export NVCOMPILERS=/share/app/nvhpc22.2  # e.g., /opt/nvidia/hpc_sdk
+
+# ========== NCCL Configuration ==========
+# Please set your NCCL installation path
+export NCCL_HOME=/share/app/nvhpc22.2/Linux_x86_64/22.2/comm_libs/nccl  # e.g., /opt/nvidia/hpc_sdk/Linux_x86_64/22.2/comm_libs/nccl
+
+# ========== Intel MKL Configuration ==========
+# Please set your Intel MKL installation path
+export MKL_HOME=/share/app/intel2020u4/mkl  # e.g., /opt/intel/mkl
+# pgfortran requires MKLROOT, not MKL_HOME
+export MKLROOT=/share/app/intel2020u4/mkl  # Same as MKL_HOME
+
+# ========== Derived Environment Variables ==========
+# The following variables are automatically built based on the above settings
+
+# Set library paths
+export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:${MPI_HOME}/lib:${NCCL_HOME}/lib:${MKL_HOME}/lib/intel64:${LD_LIBRARY_PATH}
+# Note: MKL libraries are typically in lib/intel64, not just lib
+
+# Set include paths
+export CPATH=${CUDA_HOME}/include:${MPI_HOME}/include:${NCCL_HOME}/include:${MKL_HOME}/include:${CPATH}
+
+# Set executable paths
+export PATH=${CUDA_HOME}/bin:${MPI_HOME}/bin:${NVCOMPILERS}/Linux_x86_64/22.2/compilers/bin:${PATH}
+
+# Set manual paths
+export MANPATH=${NVCOMPILERS}/Linux_x86_64/22.2/compilers/man:${MANPATH}
+
+# Load Intel compiler environment (optional, if available)
+# Uncomment and modify the path if you have Intel compilers installed
 . /share/app/intel2020u4/parallel_studio_xe_2020/psxevars.sh
 
-
+echo "Environment variables configured successfully"
+echo "CUDA_HOME: ${CUDA_HOME}"
+echo "MPI_HOME: ${MPI_HOME}"
+echo "MKL_HOME: ${MKL_HOME}"
+echo "MKLROOT: ${MKLROOT}"
+echo "NCCL_HOME: ${NCCL_HOME}"
+echo "NVCOMPILERS: ${NVCOMPILERS}"

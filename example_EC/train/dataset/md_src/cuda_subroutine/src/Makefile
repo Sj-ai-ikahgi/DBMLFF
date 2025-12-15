@@ -1,10 +1,17 @@
 
 all: cuda_routine
 
-MPI_INC =  -I /data/home/xiongrui1/sabaisheng/Shenjie/fitting/EC/mpich-3.4.3/include
-MPI_LIB =  -L /data/home/xiongrui1/sabaisheng/Shenjie/fitting/EC/mpich-3.4.3/lib
-NCCL_INC = -I /share/app/nvhpc22.2/Linux_x86_64/22.2/comm_libs/nccl/include
-NCCL_LIB = -L /share/app/nvhpc22.2/Linux_x86_64/22.2/comm_libs/nccl/lib
+# ========== Dependency Library Paths ==========
+# Use environment variables with default fallback values
+MPI_HOME ?= /usr/local/mpich
+NCCL_HOME ?= /usr/local/nccl
+
+# ========== Compilation Flags ==========
+# Define include and library paths using environment variables
+MPI_INC = -I $(MPI_HOME)/include
+MPI_LIB = -L $(MPI_HOME)/lib
+NCCL_INC = -I $(NCCL_HOME)/include
+NCCL_LIB = -L $(NCCL_HOME)/lib
 
 MPIFC = nvcc
 #FFLAG = -D_GLIBCXX_USE_CXX11_ABI=0 -lstdc++ -lgfortran -dc \

@@ -1,88 +1,111 @@
 import os
 import sys
 from os.path import join
+
 import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 
-# 设置全局绘图参数
-plt.rcParams.update({
-    'font.family': 'Arial',  # 优先使用Arial或Helvetica
-    'font.size': 12,         # 正文字体大小基准
-    'axes.labelsize': 14,    # 坐标轴标签字体大小
-    'axes.titlesize': 16,    # 子图标题字体大小
-    'xtick.labelsize': 12,   # x轴刻度字体
-    'ytick.labelsize': 12,   # y轴刻度字体
-    'lines.linewidth': 1.5,  # 线条粗细
-    'axes.linewidth': 1.5,   # 坐标轴线宽
-    'savefig.dpi': 600,      # 输出分辨率
-    'savefig.bbox': 'tight', # 自动裁剪白边
-    'legend.frameon': False  # 图例无边框
-})
-
 # 读取能量数据
-def read_data(filepath):
-    data = [[], []]
-    with open(filepath, 'r') as f:
-        for line in f:
-            tokens = line.strip().split()
-            data[0].append(float(tokens[0]))  # DFT数据
-            data[1].append(float(tokens[1]))  # ML预测数据
-    return np.array(data)
+with open("./energyL.pred.tot", 'r') as ifile:
+    lines = ifile.readlines()
 
-energy = read_data("./fread_dfeat/energyL.pred.tot")
-force = read_data("./fread_dfeat/forceL.pred.all")
+energy = [[], []]
+for line in lines:
+    token = line.split()
+    energy[0].append(float(token[0]))  # DFT Energy
+    energy[1].append(float(token[1]))  # ML-FF Energy
 
-# 计算统计指标
-def calc_metrics(y_true, y_pred):
-    diff = y_true - y_pred
-    rmse = np.sqrt(np.mean(diff**2))
-    mae = np.mean(np.abs(diff))
-    r2 = 1 - (np.sum(diff**2) / np.sum((y_true - np.mean(y_true))**2))
-    return rmse, mae, r2
+energy = np.array(energy)
+diff = energy[0] - energy[1]
 
-eng_rmse, eng_mae, eng_r2 = calc_metrics(energy[0], energy[1])
-force_rmse, force_mae, force_r2 = calc_metrics(force[0], force[1])
+# 计算 RMSE, MAE 和 R² (能量)
+eng_rmse = np.sqrt(np.dot(diff, diff) / len(diff))
+eng_mae = np.mean(np.abs(diff))
+eng_r2 = 1 - (np.sum(diff**2) / np.sum((energy[0] - np.mean(energy[0]))**2))
 
-# 创建画布
-fig, axs = plt.subplots(1, 2, figsize=(10, 4.5), gridspec_kw={'wspace':0.25})
+# 读取力数据
+with open("./forceL.pred.all", 'r') as ifile:
+    lines = ifile.readlines()
 
-# 能量对比图
-ax = axs[0]
-ax.scatter(energy[0], energy[1], s=20, alpha=0.6, 
-          c='#2c7bb6', edgecolor='none', label='Data points')
-ax.plot([energy.min(), energy.max()], [energy.min(), energy.max()], 
-       '--', color='#d7191c', label='Ideal fit')
-ax.text(0.05, 0.85, 
-       f'RMSE = {eng_rmse:.3f} eV\nMAE = {eng_mae:.3f} eV\n$R^2$ = {eng_r2:.3f}', 
-       transform=ax.transAxes, fontsize=12)
-ax.set(xlabel='DFT Energy (eV)', ylabel='MLFF Energy (eV)')
+force = [[], []]
+for line in lines:
+    token = line.split()
+    force[0].append(float(token[0]))  # DFT Force
+    force[1].append(float(token[1]))  # ML-FF Force
 
-# 力对比图
-ax = axs[1]
-ax.scatter(force[0], force[1], s=20, alpha=0.6, 
-          c='#2c7bb6', edgecolor='none')
-ax.plot([force.min(), force.max()], [force.min(), force.max()], 
-       '--', color='#d7191c')
-ax.text(0.05, 0.85, 
-       f'RMSE = {force_rmse:.3f} eV/Å\nMAE = {force_mae:.3f} eV/Å\n$R^2$ = {force_r2:.3f}', 
-       transform=ax.transAxes, fontsize=12)
-ax.set(xlabel='DFT Atomic Force (eV/Å)', ylabel='MLFF Atomic Force (eV/Å)')
+force = np.array(force)
+diff = force[0] - force[1]
 
-# 统一坐标轴范围
-for ax in axs:
-    lim_min = min(ax.get_xlim()[0], ax.get_ylim()[0])
-    lim_max = max(ax.get_xlim()[1], ax.get_ylim()[1])
-    padding = (lim_max - lim_min)*0.05
-    ax.set_xlim(lim_min - padding, lim_max + padding)
-    ax.set_ylim(lim_min - padding, lim_max + padding)
-    ax.set_aspect('equal')  # 确保1:1比例
-    
-# 添加统一图例
-fig.legend(loc='upper center', bbox_to_anchor=(0.5, 1.05), 
-          ncol=2, frameon=False)
+# 计算 RMSE, MAE 和 R² (力)
+force_rmse = np.sqrt(np.dot(diff, diff) / len(diff))
+force_mae = np.mean(np.abs(diff))
+force_r2 = 1 - (np.sum(diff**2) / np.sum((force[0] - np.mean(force[0]))**2))
+
+# 创建图形
+fig, ax = plt.subplots(1, 2, figsize=(12, 6), constrained_layout=True)
+
+# 设置刻度方向为朝内，并调整字体大小和刻度线宽度
+for axis in ax:
+    axis.tick_params(axis='both', which='major', direction='in', labelsize=12, width=2)
+    axis.tick_params(axis='both', which='minor', direction='in', width=2)
+
+# 绘制能量对比图
+ax[0].scatter(energy[0], energy[1], c='#5392CE', s=10, alpha=0.7, label="")
+ax[0].text(0.05, 0.75, "RMSE = %.3f eV\nMAE = %.3f eV\nR² = %.3f" % (eng_rmse, eng_mae, eng_r2), transform=ax[0].transAxes, fontsize=16, bbox=None)
+
+# 绘制力对比图
+ax[1].scatter(force[0], force[1], c='#5392CE', s=10, alpha=0.7, label="")
+ax[1].text(0.05, 0.75, "RMSE = %.3f eV/Å\nMAE = %.3f eV/Å\nR² = %.3f" % (force_rmse, force_mae, force_r2), transform=ax[1].transAxes, fontsize=16, bbox=None)
+
+# 绘制1:1参考线
+spoint_0 = np.min(energy)
+epoint_0 = np.max(energy)
+delt = epoint_0 - spoint_0
+spoint_0 -= delt * 0.1
+epoint_0 += delt * 0.1
+x = [spoint_0, epoint_0]
+y = [spoint_0, epoint_0]
+ax[0].plot(x, y, 'r--', linewidth=2)
+
+spoint_1 = np.min(force)
+epoint_1 = np.max(force)
+delt = epoint_1 - spoint_1
+spoint_1 -= delt * 0.1
+epoint_1 += delt * 0.1
+x = [spoint_1, epoint_1]
+y = [spoint_1, epoint_1]
+ax[1].plot(x, y, 'r--', linewidth=2)
+
+# 设置坐标轴范围
+ax[0].set_xlim([spoint_0, epoint_0])
+ax[0].set_ylim([spoint_0, epoint_0])
+ax[1].set_xlim([spoint_1, epoint_1])
+ax[1].set_ylim([spoint_1, epoint_1])
+
+# 设置坐标轴标签
+ax[0].set_xlabel("DFT Etot (eV)", fontsize=16)
+ax[1].set_xlabel("DFT Atomic Force (eV/Å)", fontsize=16)
+ax[0].set_ylabel("ML-FF Etot (eV)", fontsize=16)
+ax[1].set_ylabel("ML-FF Atomic Force (eV/Å)", fontsize=16)
+
+# 加粗坐标轴线条
+for axis in ax:
+    for spine in axis.spines.values():
+        spine.set_linewidth(2)
+
+# 移除网格线
+# 注释掉或删除以下两行来移除网格线
+# ax[0].grid(True, linestyle='--', alpha=0.5)
+# ax[1].grid(True, linestyle='--', alpha=0.5)
+
+# 移除图例
+ax[0].legend().remove()
+ax[1].legend().remove()
+
+# 设置标题
+plt.suptitle("MLFF Fitting Results", fontsize=20, fontweight='bold')
 
 # 保存图像
-fig.savefig("MLFF_validation.png")
-fig.savefig("MLFF_validation.pdf")  # 矢量图格式更佳
+fig.savefig("./eng_force_dataset.png", dpi=600, bbox_inches='tight')
