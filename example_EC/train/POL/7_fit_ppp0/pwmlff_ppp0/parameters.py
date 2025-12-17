@@ -39,9 +39,9 @@ genFeatDir  =join(os.path.dirname(__file__), 'gen_feature')
 
 # !!!ATTENTION!!! YOU MUST SET THE FOLLOWING VARIABLES ACCORDING TO YOUR SYSTEM MANUALLY
 set_atom_type = 1
-atomType = list(range(1, 1+5))
-atomElement = ['O' for i in range(3)] + ['C' for i in range(3)] + ['H' for i in range(4)]
-maxNeighborNum = 10
+atomType = list(range(1, 1+5))     # 5 represents the number of atom types; atoms of the same type share an identical chemical environment
+atomElement = ['O' for i in range(3)] + ['C' for i in range(3)] + ['H' for i in range(4)]   # Set according to the element types present in the molecule
+maxNeighborNum = 10    # Total number of atoms in the molecule
 iflag_weight = False
 iflag_ftype = 4
 iat_and_idir = None

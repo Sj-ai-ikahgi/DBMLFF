@@ -227,15 +227,27 @@ Check the consistency between MLFF predictions and DFT references for energy and
 **Working Directory:** `train/POL`
 
 ```bash
-# Complete polarization workflow
-bash qsub_0_1.sh    # Structure relaxation
-bash qsub_2.sh      # Point charge generation
-bash qsub_3.1.sh    # Task splitting
-bash qsub_3.2.sh    # DFT calculations  
-bash qsub_3.3.sh    # Result integration
-bash qsub_4_5.sh    # Format conversion and fitting; visualization at POL/5_fit_direct_pxyz/plot_test.fit.png
+bash qsub_0_1.sh      # Structure relaxation
+bash qsub_2.sh        # Point charge generation
+bash qsub_3.1.sh      # Task splitting
+bash qsub_3.2.sh      # DFT calculations (Note: manually submit jobs via ./3_POL_DFT/qsub_dft.sh, ensuring load balancing across nodes)
+bash qsub_3.3.sh      # Result integration
+bash qsub_4_5.sh      # Format conversion and fitting; visualization available at POL/5_fit_direct_pxyz/plot_test.fit.png
+```
+
+Modify the corresponding parameters in `7_fit_ppp0/pwmlff_ppp0/parameters.py` according to the target molecule:
+```python
+atomType = list(range(1, 1+5))     # 5 represents the number of atom types; atoms of the same type share an identical chemical environment
+atomElement = ['O' for i in range(3)] + ['C' for i in range(3)] + ['H' for i in range(4)]   # Set according to the element types present in the molecule
+maxNeighborNum = 10    # Total number of atoms in the molecule
+```
+Additionally, modify the `whome` and `molType` parameters in the `qsub_6_7.sh` script as needed.
+
+```bash
 bash qsub_6_7.sh    # Intramolecular polarization
 ```
+
+We have maximized automation in the code, but certain steps require manual modifications and job submissions. When running the scripts, pay attention to the screen output to ensure step-by-step execution. Note that the DFT calculations are implemented using PWmat.
 
 **Quality Checks:**
 Check the consistency between DBMLFF predictions and DFT references for polarization energy in the visualization results at `plot_test.fit.png`

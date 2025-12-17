@@ -4,8 +4,8 @@
   pwd=`pwd`
 
   echo "----- start generate pxyz.outC -----"
-  cd ./6_generate_ppp0
-  bash qsub.sh
+  cd ./4_convert2pxyz
+  bash run.sh
   cd ${pwd}
 
   echo "----- start fitting -----"
