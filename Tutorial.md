@@ -146,17 +146,13 @@ cd ../DB/
 bash qsub_1.sh
 
 # Step 2.3: Charge Density Fitting
-# Set z_valence in qsub_2.sh to total valence electrons of the molecule
+# Set z_valence in qsub_2.sh to total valence electrons of the molecule, fitted charge density results are located at `DB/2_fit_DB/rho2xsf/RHO.xsf`
 bash qsub_2.sh
-```
-Fitted charge density results are located at `DB/2_fit_DB/rho2xsf/RHO.xsf`
 
-# Step 2.4: Validation
-Set n123 values in `DB/3_check/egg_box/template/run_mpich.sh`
-```bash
-bash qsub_3.sh  # Tests DB convergence
+# Step 2.4: Validation: tests DB convergence
+# Set n123 values in `DB/3_check/egg_box/template/run_mpich.sh`, visualization results are located at `DB/3_check/egg_box/sample/data_out`. The force and energy curves should converge to straight lines when n123 approaches the recommended value [7 times the box size (in Angstroms)].
+bash qsub_3.sh  
 ```
-Visualization results are located at `DB/3_check/egg_box/sample/data_out`. The force and energy curves should converge to straight lines when n123 approaches the recommended value [7 times the box size (in Angstroms)].
 
 **Quality Checks:**
 - Use VESTA to verify the consistency between the fitted charge density (`DB/2_fit_DB/rho2xsf/RHO.xsf`) and the original DFT-calculated charge density (`DB/1_SCF/SCF/50/RHO.xsf`) for the same EC molecule.
